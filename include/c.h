@@ -11,7 +11,7 @@ class CProg : public PackageManager {
 private:
     PackageManagerToolkit * toolkit;
     const std::string progLang = "c";
-    const std::string gitRepo = "Matographo/c-database";
+    const std::string gitRepo = "Matographo/c-databases";
     
 
     int createNewVersion(Package * pkg, PackagePaths * pkgPath);
