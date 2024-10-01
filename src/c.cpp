@@ -147,9 +147,30 @@ int CProg::createNewVersion(Package * pkg, PackagePaths * pkgPath) {
             break;
         }
     }
+
+    if(libraryFile == "") {
+        for(const auto & entry : std::filesystem::recursive_directory_iterator(pathToBuild)) {
+            libraryExtention = entry.path().extension();
+            if(libraryExtention == ".a" || libraryExtention == ".so" || libraryExtention == ".dll" || libraryExtention == ".lib") {
+                libraryFile = entry.path();
+                break;
+            }
+        }
+    }   
     
     if(libraryFile == "") {
         std::cerr << "No library file found for package " << pkg->name << std::endl;
+        std::filesystem::remove_all(pkgPath->packageVersionPath);
+        std::filesystem::remove_all(pathToBuild);
+        return 1;
+    }
+    
+    while(std::filesystem::is_symlink(libraryFile)) {
+        libraryFile = std::filesystem::read_symlink(libraryFile);
+    }
+    
+    if(!libraryFile.find(libraryExtention) == std::string::npos) {
+        std::cerr << "Library file found for package " << pkg->name << " is not a " << libraryExtention << " file" << std::endl;
         std::filesystem::remove_all(pkgPath->packageVersionPath);
         std::filesystem::remove_all(pathToBuild);
         return 1;
