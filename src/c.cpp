@@ -167,6 +167,7 @@ int CProg::createNewVersion(Package * pkg, PackagePaths * pkgPath) {
     
     while(std::filesystem::is_symlink(libraryFile)) {
         libraryFile = std::filesystem::read_symlink(libraryFile);
+        libraryFile = std::filesystem::absolute(libraryFile);
     }
     
     if(!libraryFile.find(libraryExtention) == std::string::npos) {
