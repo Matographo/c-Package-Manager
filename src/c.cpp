@@ -165,8 +165,11 @@ int CProg::createNewVersion(Package * pkg, PackagePaths * pkgPath) {
         return 1;
     }
     
+    std::filesystem::path libraryPath = std::filesystem::absolute(libraryFile).parent_path();
+    
     while(std::filesystem::is_symlink(libraryFile)) {
         libraryFile = std::filesystem::read_symlink(libraryFile);
+        libraryFile = libraryPath / libraryFile;
         libraryFile = std::filesystem::absolute(libraryFile);
     }
     
