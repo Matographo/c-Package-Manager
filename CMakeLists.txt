@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories(include)
 
 # Erstelle die Shared Library
-add_library(c SHARED src/cpp.cpp src/Downloader.cpp src/sqlite3.c)
+add_library(c SHARED src/c.cpp src/Downloader.cpp src/sqlite3.c)
 
 # Verlinke die dl-Bibliothek auf Linux
 if (UNIX)
