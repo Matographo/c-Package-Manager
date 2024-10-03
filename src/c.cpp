@@ -66,7 +66,11 @@ int CProg::update(std::string package) {
 }
 
 int CProg::update(std::vector<std::string> packages) {
-    return this->toolkit->updateAllPackages(this->progLang);
+    int result = 0;
+    for(std::string package : packages) {
+        result += this->update(package);
+    }
+    return result;
 }
 
 int CProg::update() {
